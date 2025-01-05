@@ -12,10 +12,16 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Booktex.Application\Booktex.Application.csproj" />
+  </ItemGroup>
   
   
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
     <Exec Command="$(NSwagExe_Net90) run Clients/Docktex/DocktexAPIClient.nswag" Condition="1 == 2"></Exec>
+    <Exec Command="$(NSwagExe_Net90) run Clients/GitHub/GitHubAPIClient.nswag" Condition="1 == 2"></Exec>
+
   </Target>
     
 

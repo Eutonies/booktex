@@ -1,11 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.12.35527.113 d17.12
+VisualStudioVersion = 17.12.35527.113
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Booktex.Service", "Booktex.Service\Booktex.Service.csproj", "{D78F6CF5-C7CC-4971-A5EE-B2A0FB2C024B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Booktex.Infrastructure", "Booktex.Infrastructure\Booktex.Infrastructure.csproj", "{207D5ECF-05A4-44F1-B3F4-0DC351660017}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Booktex.Domain", "Booktex.Domain\Booktex.Domain.csproj", "{2ACAB013-389D-441C-BC86-2B4612B00935}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Booktex.Application", "Booktex.Application\Booktex.Application.csproj", "{8A428C83-496E-4814-91D2-B22858CD389F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +25,14 @@ Global
 		{207D5ECF-05A4-44F1-B3F4-0DC351660017}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{207D5ECF-05A4-44F1-B3F4-0DC351660017}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{207D5ECF-05A4-44F1-B3F4-0DC351660017}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2ACAB013-389D-441C-BC86-2B4612B00935}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2ACAB013-389D-441C-BC86-2B4612B00935}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2ACAB013-389D-441C-BC86-2B4612B00935}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2ACAB013-389D-441C-BC86-2B4612B00935}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8A428C83-496E-4814-91D2-B22858CD389F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A428C83-496E-4814-91D2-B22858CD389F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A428C83-496E-4814-91D2-B22858CD389F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A428C83-496E-4814-91D2-B22858CD389F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
