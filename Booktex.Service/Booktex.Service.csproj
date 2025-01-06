@@ -17,6 +17,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Booktex.Application\Booktex.Application.csproj" />
     <ProjectReference Include="..\Booktex.Infrastructure\Booktex.Infrastructure.csproj" />
+    <ProjectReference Include="..\Booktex.Persistence\Booktex.Persistence.csproj" />
   </ItemGroup>
 
   <ItemGroup>

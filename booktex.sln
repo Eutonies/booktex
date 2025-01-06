@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Booktex.Domain", "Booktex.D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Booktex.Application", "Booktex.Application\Booktex.Application.csproj", "{8A428C83-496E-4814-91D2-B22858CD389F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Booktex.Persistence", "Booktex.Persistence\Booktex.Persistence.csproj", "{1A7F864C-8573-4863-BE58-8CF4D64C7DE4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{8A428C83-496E-4814-91D2-B22858CD389F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8A428C83-496E-4814-91D2-B22858CD389F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8A428C83-496E-4814-91D2-B22858CD389F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1A7F864C-8573-4863-BE58-8CF4D64C7DE4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A7F864C-8573-4863-BE58-8CF4D64C7DE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A7F864C-8573-4863-BE58-8CF4D64C7DE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A7F864C-8573-4863-BE58-8CF4D64C7DE4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

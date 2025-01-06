@@ -1,5 +1,6 @@
 ﻿using Booktex.Application;
 using Booktex.Infrastructure;
+using Booktex.Persistence;
 
 namespace Booktex.Service;
 
@@ -12,6 +13,7 @@ public static class DependencyInjectionService
         builder.Configuration.AddEnvironmentVariables();
         builder.AddApplicationConfiguration();
         builder.AddInfrastructureConfiguration();
+        builder.AddPersistenceConfiguration();
         return builder;
     }
 
@@ -19,10 +21,9 @@ public static class DependencyInjectionService
     {
         builder.AddApplication();
         builder.AddInfrastructure();
+        builder.AddPersistence();
         builder.Services.AddControllers();
         builder.Services.AddOpenApi();
-
-
         return builder;
     }
 
