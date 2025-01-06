@@ -1,4 +1,5 @@
 ﻿using Booktex.Application.Subscription;
+using Booktex.Persistence.Book.Model;
 using Booktex.Persistence.Configuration;
 using Booktex.Persistence.Context;
 using Booktex.Persistence.Subscription;
@@ -36,6 +37,7 @@ public static class DependencyInjectionPersistence
         optsBuilder.UseNpgsql(connString, opts =>
         {
             opts.MapEnum<BooktexSubscriptionTypeDbo>("subscription_type", nameTranslator: new NpgsqlNullNameTranslator());
+            opts.MapEnum<BooktexBookChapterContentTypeDbo>("content_type", nameTranslator: new NpgsqlNullNameTranslator());
         }).EnableDetailedErrors();
     }
 
