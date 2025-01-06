@@ -17,20 +17,28 @@ using SysFile = System.IO.File;
 namespace Booktex.Infrastructure.GitHub;
 public class GitHubService : IGitHubService
 {
-    private readonly IGitHubApiClient _client;
     private readonly GitHubConfiguration _conf;
 
-    public GitHubService(IGitHubApiClient client, IOptions<InfrastructureConfiguration> conf)
+    public GitHubService(IOptions<InfrastructureConfiguration> conf)
     {
-        _client = client;
         _conf = conf.Value.GitHub;
-
     }
 
-    public async Task DownloadFiles(GitHubRef reference)
+    public async Task<byte[]> DownloadFiles(GitHubRef reference)
     {
         var (repo, refName) = reference;
-        await _client.Repos_downloadZipballArchiveAsync(repo.Owner, repo.Name, refName);
+        try
+        {
+            var octoClient = new Octokit.GitHubClient(new Octokit.ProductHeaderValue("booktex"));
+            octoClient.Credentials = new Octokit.Credentials(_conf.FineGrainedToken, Octokit.AuthenticationType.Bearer);
+            var result = await octoClient.Repository.Content.GetArchive(repo.Owner, repo.Name, Octokit.ArchiveFormat.Zipball, refName);
+            return result;
+        }
+        catch (Exception ex)
+        {
+
+            throw;
+        }
     }
 
 }

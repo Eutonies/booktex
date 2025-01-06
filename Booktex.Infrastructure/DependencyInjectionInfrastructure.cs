@@ -32,6 +32,8 @@ public static class DependencyInjectionInfrastructure
             }).ConfigureHttpClient((provider, client) =>
             {
                 client.BaseAddress = new Uri(conf.GitHub.BaseUrl);
+                client.DefaultRequestHeaders.UserAgent.Add(new System.Net.Http.Headers.ProductInfoHeaderValue("1103644", null));
+                var authToken = 
                 client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", conf.GitHub.AuthenticationToken());
             });
         return builder;

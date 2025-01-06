@@ -8,6 +8,6 @@ using System.Threading.Tasks;
 namespace Booktex.Application.GitHub;
 public interface IGitHubService
 {
-    Task DownloadFiles(GitHubRef reference);
+    Task<byte[]> DownloadFiles(GitHubRef reference);
 
 }

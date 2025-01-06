@@ -15,6 +15,7 @@ public class GitHubConfiguration
     public string ClientSecret { get; set; }
     public string PrivateKeyFile { get; set; }
     public string BaseUrl { get; set; }
+    public string FineGrainedToken { get; set; }
 
     private RsaSecurityKey? _privateKey;
     public RsaSecurityKey PrivateKey => _privateKey ??= InstantiatePrivateKey();
@@ -28,7 +29,7 @@ public class GitHubConfiguration
         return privateKey;
     }
 
-    private JsonWebTokenHandler _jwtHandler = new JsonWebTokenHandler();
+    private JsonWebTokenHandler _jwtHandler = new JsonWebTokenHandler() { SetDefaultTimesOnTokenCreation = false };
     private SigningCredentials? _signingCredentials;
 
     private string? _authToken;
@@ -38,12 +39,14 @@ public class GitHubConfiguration
     {
         if (_authToken != null && _authTokenDescriptor != null && _authTokenDescriptor.Expires > DateTime.UtcNow.AddSeconds(10))
             return _authToken;
-        var creds = _signingCredentials ??= new SigningCredentials(PrivateKey, SecurityAlgorithms.RsaSsaPssSha256);
+        var creds = _signingCredentials ??= new SigningCredentials(PrivateKey, SecurityAlgorithms.RsaSha256);
+        var now = DateTime.UtcNow.AddSeconds(-10);
         _authTokenDescriptor = new SecurityTokenDescriptor
         {
             Issuer = AppId,
-            IssuedAt = DateTime.UtcNow.AddSeconds(-10),
-            Expires = DateTime.UtcNow.AddMinutes(10).AddSeconds(-20),
+            IssuedAt = now,
+            NotBefore = null,
+            Expires = now.AddMinutes(10),
             SigningCredentials = creds
         };
         _authToken = _jwtHandler.CreateToken(_authTokenDescriptor);
