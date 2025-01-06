@@ -1,8 +1,7 @@
 using Booktex.Application.GitHub;
+using Booktex.Application.Zip;
 using Booktex.Domain.GitHub;
-using Booktex.Infrastructure.GitHub;
 using Booktex.Service;
-using GitHub;
 
 
 
@@ -19,10 +18,15 @@ if (app.Environment.IsDevelopment())
 }
 var scopeFactory = app.Services.GetRequiredService<IServiceScopeFactory>();
 using var scope = scopeFactory.CreateScope();
-var githubService = scope.ServiceProvider.GetRequiredService<IGitHubService>();
+/*var githubService = scope.ServiceProvider.GetRequiredService<IGitHubService>();
 var githubRef = GitHubRef.From("sune-roenne", "haw-story", "main");
-await githubService.DownloadFiles(githubRef);
+var fileBytes = await githubService.DownloadFiles(githubRef);
+var outputFileName = $"C:/git/booktex/sample/GitHubZips/{githubRef.Repo.Owner}.{githubRef.Repo.Name}.zip";
+await File.WriteAllBytesAsync(outputFileName, fileBytes);*/
 
+var zipFileName = "C:\\git\\booktex\\sample\\GitHubZips\\sune-roenne.haw-story.zip";
+var zipFileParser = scope.ServiceProvider.GetRequiredService<IZipFileParser>();
+var parsed = await zipFileParser.Parse(zipFileName);
 
 app.UseHttpsRedirection();
 

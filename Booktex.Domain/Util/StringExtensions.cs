@@ -22,4 +22,14 @@ public static class StringExtensions
         items.Aggregate(initial.ToShaHash(), (hashed, snd) => hashed.CombineHash(stringer(snd).ToShaHash())) :
         initial.ToShaHash();
 
+    public static string AfterLastIndexOf(this string input, string toOccur)
+    {
+        var lastIndex = input.LastIndexOf(toOccur);
+        if(lastIndex > 0)
+        {
+            return input.Substring(lastIndex + toOccur.Length);
+        }
+        return input;
+    }
+
 }
