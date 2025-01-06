@@ -28,5 +28,14 @@ public static class DependencyInjectionService
     }
 
 
+    public static WebApplication UseServices(this WebApplication app)
+    {
+        app.MapOpenApi();
+        app.UseHttpsRedirection();
+        app.UseAuthorization();
+        app.MapControllers();
+        return app;
+    }
+
 
 }

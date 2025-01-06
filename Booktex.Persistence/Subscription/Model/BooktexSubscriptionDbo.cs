@@ -26,6 +26,9 @@ internal class BooktexSubscriptionDbo
     [Column("github_repo")]
     public string? GitHubRepo { get; set; }
 
+    [Column("file_regex")]
+    public string? FileRegex { get; set; }
+
     public BooktexSubscription ToDomain() => SubscriptionType switch
     {
         BooktexSubscriptionTypeDbo.GitHub => ToGitHubSubscription(),
@@ -35,8 +38,23 @@ internal class BooktexSubscriptionDbo
     public BooktexGitHubSubscription ToGitHubSubscription() => new BooktexGitHubSubscription(
         SubscriptionId: SubscriptionId,
         GitHubOwner: GitHubOwner!,
-        GitHubRepo: GitHubRepo!
+        GitHubRepo: GitHubRepo!,
+        FileRegex: FileRegex
         );
+}
 
-
+internal static class BooktexSubscriptionDboExtensions
+{
+    public static BooktexSubscriptionDbo ToDbo(this BooktexSubscription sub) => sub switch
+    {
+        BooktexGitHubSubscription ghSub => new BooktexSubscriptionDbo
+        {
+            SubscriptionId = ghSub.SubscriptionId,
+            SubscriptionType = BooktexSubscriptionTypeDbo.GitHub,
+            GitHubOwner = ghSub.GitHubOwner,
+            GitHubRepo = ghSub.GitHubRepo,
+            FileRegex = ghSub.FileRegex
+        },
+        _ => throw new InvalidOperationException()
+    };
 }

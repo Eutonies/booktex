@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Buffers.Text;
 using System.Collections.Generic;
+using System.IO.Compression;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -31,5 +32,31 @@ public static class StringExtensions
         }
         return input;
     }
+
+    public static byte[] Compress(this string input)
+    {
+        var bytes = Encoding.UTF8.GetBytes(input);
+        using var ms = new MemoryStream();
+        using (var gzStream = new GZipStream(ms, CompressionLevel.Optimal))
+        {
+            gzStream.Write(bytes, 0, bytes.Length);
+        }
+        return ms.ToArray();
+    }
+    public static string DeCompress(this byte[] input)
+    {
+
+        using var ms = new MemoryStream(input);
+        using var outStream = new MemoryStream();
+        using (var gzStream = new GZipStream(ms, CompressionMode.Decompress))
+        {
+            gzStream.CopyTo(outStream);
+        }
+        var decompressedBytes = outStream.ToArray();
+        var returnee = Encoding.UTF8.GetString(decompressedBytes);
+        return returnee;
+    }
+
+
 
 }

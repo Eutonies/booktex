@@ -1,5 +1,7 @@
-﻿using Booktex.Persistence.Configuration;
+﻿using Booktex.Application.Subscription;
+using Booktex.Persistence.Configuration;
 using Booktex.Persistence.Context;
+using Booktex.Persistence.Subscription;
 using Booktex.Persistence.Subscription.Model;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
@@ -24,6 +26,7 @@ public static class DependencyInjectionPersistence
     public static WebApplicationBuilder AddPersistence(this WebApplicationBuilder builder)
     {
         builder.Services.AddDbContextFactory<BooktexDbContext>(ConfigureDb, lifetime: ServiceLifetime.Singleton);
+        builder.Services.AddSingleton<ISubscriptionRepo, SubscriptionRepo>();
         return builder;
     }
 

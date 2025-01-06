@@ -7,4 +7,6 @@ using System.Threading.Tasks;
 namespace Booktex.Domain.Subscription;
 public abstract record BooktexSubscription(
     long SubscriptionId
-    );
+    )
+{
+}
