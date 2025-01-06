@@ -398,3 +398,6 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+/Booktex.Service/Booktex.Service.http
+/Booktex.Service/github.booktex.key.pem
+/Booktex.Service/appsettings.local.json

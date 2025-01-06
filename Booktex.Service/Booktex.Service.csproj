@@ -10,4 +10,19 @@
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Controllers\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Booktex.Application\Booktex.Application.csproj" />
+    <ProjectReference Include="..\Booktex.Infrastructure\Booktex.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Github.Client">
+      <HintPath>..\Booktex.Infrastructure\lib\Github.Client.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>
