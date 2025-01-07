@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Booktex.Domain.Book.Model;
+using Booktex.Domain.Util;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -16,8 +18,6 @@ internal class BooktexBookCharacterDbo
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public long CharacterId { get; set; }
-    [Column("book_content_id")]
-    public long? BookContentId { get; set; }
     [Column("character_name")]
     public string CharacterName { get; set; }
     [Column("info_character")]
@@ -33,5 +33,31 @@ internal class BooktexBookCharacterDbo
     [Column("character_alias")]
     public string? Alias { get; set; }
 
+    public BookCharacter ToDomain() => new BookCharacter(
+        CharacterName: CharacterName,
+        CharacterInfo: InfoCharacter?.Pipe(
+            _ => new BookCharacterInfo(
+                Character: InfoCharacter!,
+                ShowName: InfoShowname!, 
+                Color: InfoColor!,
+                Font: InfoFont!,
+                SiteFont: InfoSiteFont
+            )),
+        Alias: Alias
+    );
+
 }
 
+internal static class BooktexBookCharacterDboExtensions
+{
+    public static BooktexBookCharacterDbo ToDbo(this BookCharacter ch) => new BooktexBookCharacterDbo
+    {
+        CharacterName = ch.CharacterName,
+        InfoCharacter = ch.CharacterInfo?.Character,
+        InfoShowname = ch.CharacterInfo?.ShowName,
+        InfoColor = ch.CharacterInfo?.Color,
+        InfoFont = ch.CharacterInfo?.Font,
+        InfoSiteFont = ch.CharacterInfo?.SiteFont,
+        Alias = ch.Alias
+    };
+}

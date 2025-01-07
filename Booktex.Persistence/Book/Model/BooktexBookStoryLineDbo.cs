@@ -16,6 +16,8 @@ internal class BooktexBookStoryLineDbo
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public long StoryLineId { get; set; }
+    [Column("release_id")]
+    public long ReleaseId { get; set; }
     [Column("story_line")]
     public string StoryLine { get; set; }
     [Column("story_line_name")]
