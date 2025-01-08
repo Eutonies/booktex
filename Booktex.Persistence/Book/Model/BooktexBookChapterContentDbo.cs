@@ -97,55 +97,69 @@ internal class BooktexBookChapterContentDbo
 
 internal static class BooktexBookChapterContentDboExtensions
 {
-    public static (BooktexBookChapterContentDbo Content, IReadOnlyCollection<BooktexBookChapterContentSubDbo> Subs) ToDbo(
+    public static (BooktexBookChapterContentDbo Content, IReadOnlyCollection<BooktexBookChapterContentSubDbo> Subs, BooktexBookCharacterDbo? Character) ToDbo(
         this BookChapterContent cont, 
         long? characterId,
         int index,
         long? aboutTheAuthorId,
         long? chapterId) => cont switch
-    {
-        BookChapterSection sec => (new BooktexBookChapterContentDbo { TitleData = sec.Title, ContentType = ConTyp.ChapterSection, Index = index, AboutTheAuthorId = aboutTheAuthorId, ChapterId = chapterId }, []),
-        BookCharacterLine lin => (
-            Content: new BooktexBookChapterContentDbo
-            {
-                CharacterId = characterId,
-                IsThought = lin.IsThought,
-                ContentType = ConTyp.CharacterLine,
-                Index = index,
-                AboutTheAuthorId = aboutTheAuthorId,
-                ChapterId = chapterId
-            },
-            Subs: lin.LineParts
-                .Select((lp, indx) => (Entry: lp, Indx: indx))
-                .Select(_ => _.Entry.ToDbo(contentId: 0L, _.Indx))
-                .ToList()
-        ),
-        BookCharacterStoryTime st => (
-            Content: new BooktexBookChapterContentDbo 
-            { 
-                TitleData = st.Title, 
-                StringData = st.Story, 
-                ContentType = ConTyp.CharacterStoryTime, 
-                Index = index, 
-                AboutTheAuthorId = aboutTheAuthorId, 
-                ChapterId = chapterId 
-            }, []),
-        BookContextBreak cb => (new BooktexBookChapterContentDbo { ContentType = ConTyp.ContextBreak, Index = index, AboutTheAuthorId = aboutTheAuthorId, ChapterId = chapterId }, []),
-        BookNarration narr => (new BooktexBookChapterContentDbo { ContentType = ConTyp.Narration, StringData = narr.NarrationContent, Index = index, AboutTheAuthorId = aboutTheAuthorId, ChapterId = chapterId }, []),
-        BookNarrationList narrLis => (
-            Content: new BooktexBookChapterContentDbo
-            {
-                ContentType = ConTyp.NarrationList,
-                IsNumbered = narrLis.IsNumbered,
-                Index = index,
-                AboutTheAuthorId = aboutTheAuthorId,
-                ChapterId = chapterId
-            },
-            Subs: narrLis.Items
-                .Select((it, indx) => (Item: it, Indx: indx))
-                .Select(_ => new BooktexBookChapterContentSubDbo { Index = _.Indx, StringData = _.Item })
-                .ToList()
+        {
+            BookChapterSection sec => (new BooktexBookChapterContentDbo { TitleData = sec.Title, ContentType = ConTyp.ChapterSection, Index = index, AboutTheAuthorId = aboutTheAuthorId, ChapterId = chapterId }, [], null),
+            BookCharacterLine lin => (
+                Content: new BooktexBookChapterContentDbo
+                {
+                    CharacterId = characterId,
+                    IsThought = lin.IsThought,
+                    ContentType = ConTyp.CharacterLine,
+                    Index = index,
+                    AboutTheAuthorId = aboutTheAuthorId,
+                    ChapterId = chapterId
+                },
+                Subs: lin.LineParts
+                    .Select((lp, indx) => (Entry: lp, Indx: indx))
+                    .Select(_ => _.Entry.ToDbo(contentId: 0L, _.Indx))
+                    .ToList(),
+                Character: lin.Character.ToDbo()
             ),
+            BookCharacterStoryTime st => (
+                Content: new BooktexBookChapterContentDbo
+                {
+                    TitleData = st.Title,
+                    StringData = st.Story,
+                    ContentType = ConTyp.CharacterStoryTime,
+                    Index = index,
+                    AboutTheAuthorId = aboutTheAuthorId,
+                    ChapterId = chapterId
+                },
+                Subs: [],
+                Character: st.Character.ToDbo()
+             ),
+            BookContextBreak cb => (new BooktexBookChapterContentDbo { ContentType = ConTyp.ContextBreak, Index = index, AboutTheAuthorId = aboutTheAuthorId, ChapterId = chapterId }, [], null),
+            BookNarration narr => (
+                Content: new BooktexBookChapterContentDbo {
+                    ContentType = ConTyp.Narration,
+                    StringData = narr.NarrationContent,
+                    Index = index,
+                    AboutTheAuthorId = aboutTheAuthorId,
+                    ChapterId = chapterId },
+                Subs: [],
+                Character: null),
+            BookNarrationList narrLis => (
+                Content: new BooktexBookChapterContentDbo
+                {
+                    ContentType = ConTyp.NarrationList,
+                    IsNumbered = narrLis.IsNumbered,
+                    Index = index,
+                    AboutTheAuthorId = aboutTheAuthorId,
+                    ChapterId = chapterId
+                },
+                Subs: narrLis.Items
+                    .Select((it, indx) => (Item: it, Indx: indx))
+                    .Select(_ => new BooktexBookChapterContentSubDbo { Index = _.Indx, StringData = _.Item })
+                    .ToList(),
+                Character: null
+
+             ),
         BookSinging sing => (
             Content: new BooktexBookChapterContentDbo
             {
@@ -158,7 +172,8 @@ internal static class BooktexBookChapterContentDboExtensions
             Subs: sing.LinesSong
                 .Select((it, indx) => (Item: it, Index: indx))
                 .Select(_ => new BooktexBookChapterContentSubDbo { Index = _.Index, StringData = _.Item })
-                .ToList()   
+                .ToList(),
+            Character: sing.Character.ToDbo()
         ),
         _ => throw new Exception()
     };

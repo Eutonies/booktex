@@ -1,4 +1,7 @@
-﻿using Booktex.Persistence.Subscription.Model;
+﻿using Booktex.Application.Book;
+using Booktex.Persistence.Book;
+using Booktex.Persistence.Book.Model;
+using Booktex.Persistence.Subscription.Model;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -13,6 +16,17 @@ internal class BooktexDbContext : DbContext
     public DbSet<BooktexSubscriptionDbo> Subscriptions { get; set; }
     public DbSet<BooktexSubscriptionExecutionDbo> Executions { get; set; }
     public DbSet<BooktexSubscriptionExecutionFileDbo> ExecutionFiles { get; set; }
+
+
+    public DbSet<BooktexBookAboutTheAuthorDbo> BookAboutTheAuthors { get; set; }
+    public DbSet<BooktexBookChapterContentDbo> BookChapterContents { get; set; }
+    public DbSet<BooktexBookChapterContentSubDbo> BookChapterContentSubs { get; set; }
+    public DbSet<BooktexBookChapterDbo> BookChapters { get; set; }
+    public DbSet<BooktexBookChapterMetadataDbo> BookMetaDatas { get; set; }
+    public DbSet<BooktexBookChapterMetadataMappingDbo> BookMetaDataMappings { get; set; }
+    public DbSet<BooktexBookCharacterDbo> BookCharacters { get; set; }
+    public DbSet<BooktexBookReleaseDbo> BookReleases { get; set; }
+    public DbSet<BooktexBookStoryLineDbo> BookStoryLines { get; set; }
 
     public BooktexDbContext(DbContextOptions<BooktexDbContext> options) : base(options) { }
 

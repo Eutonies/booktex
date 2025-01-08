@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Booktex.Domain.Book.Model;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -17,6 +18,9 @@ internal class BooktexBookReleaseDbo
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public long ReleaseId { get; set; }
 
+    [Column("subscription_id")]
+    public long SubscriptionId { get; set; }
+
     [Column("release_author")]
     public string Author { get; set; }
 
@@ -25,4 +29,22 @@ internal class BooktexBookReleaseDbo
 
     [Column("last_modified")]
     public DateTime LastModified { get; set; }
+
+    public void UpdateWithReleaseId(BooktexBookAboutTheAuthorDbo authorDbo)
+    {
+        authorDbo.ReleaseId = ReleaseId;
+    }
+
+
+}
+
+internal static class BooktexBookReleaseDboExtensions
+{
+    public static BooktexBookReleaseDbo ToDbo(this BookRelease rel, long subscriptionId) => new BooktexBookReleaseDbo
+    {
+        SubscriptionId = subscriptionId,
+        Author = rel.Author,
+        Version = rel.Version,
+        LastModified = rel.LastModified,
+    };
 }

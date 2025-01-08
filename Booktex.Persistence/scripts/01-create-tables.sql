@@ -37,11 +37,14 @@ create index idx_subscription_execution_fil_execid on subscription_execution_fil
 
 create table book_release(
    release_id bigint primary key generated always as identity,
+   subscription_id bigint not null,
    release_author varchar(100) not null,
    release_version varchar(20) not null,
-   last_modified timestamp not null
+   last_modified timestamp not null,
+   constraint fk_book_release_subid foreign key(subscription_id) references subscription(subscription_id) on delete cascade
 );
 
+create index idx_book_release_subid on book_release(subscription_id);
 
 create table book_story_line(
    story_line_id bigint primary key generated always as identity,
@@ -128,7 +131,7 @@ create table book_chapter_content(
 create index idx_book_chapter_content_refs on book_chapter_content(about_the_author_id,chapter_id);
 
 create table book_chapter_content_sub(
-  content_sub_id primary key generated always as identity,
+  content_sub_id bigint primary key generated always as identity,
   content_id bigint not null,
   string_data text,
   string_data_description varchar(1000),
@@ -138,4 +141,11 @@ create table book_chapter_content_sub(
 create index idx_book_chapter_content_sub_contid on book_chapter_content_sub(content_id);
 
 
+create table book_about_author(
+  about_the_author_id bigint primary key generated always as identity,
+  release_id bigint not null,
+  constraint fk_book_about_author_relid foreign key(release_id) references book_release(release_id) on delete cascade
+);
+
+create index idx_book_about_author_relid on book_about_author(release_id);
 
