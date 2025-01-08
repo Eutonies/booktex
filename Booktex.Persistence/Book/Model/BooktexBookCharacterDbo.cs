@@ -18,6 +18,10 @@ internal class BooktexBookCharacterDbo
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public long CharacterId { get; set; }
+    [Column("release_id")]
+    public long? ReleaseId { get; set; }
+    [Column("chapter_id")]
+    public long? ChapterId { get; set; }
     [Column("character_name")]
     public string CharacterName { get; set; }
     [Column("info_character")]

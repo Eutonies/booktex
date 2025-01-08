@@ -25,8 +25,4 @@ internal class BooktexBookReleaseDbo
 
     [Column("last_modified")]
     public DateTime LastModified { get; set; }
-
-
-
-
 }

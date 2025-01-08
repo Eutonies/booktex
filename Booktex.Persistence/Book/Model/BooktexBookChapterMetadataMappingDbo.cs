@@ -10,7 +10,7 @@ namespace Booktex.Persistence.Book.Model;
 [Table(TableName)]
 internal class BooktexBookChapterMetadataMappingDbo
 {
-    public const string TableName = "book_chapter_meta_mapping";
+    public const string TableName = "book_chapter_metadata_mapping";
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     [Column("metadata_mapping_id")]

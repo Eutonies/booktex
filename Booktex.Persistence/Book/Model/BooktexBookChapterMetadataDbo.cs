@@ -12,11 +12,14 @@ namespace Booktex.Persistence.Book.Model;
 [Table(TableName)]
 internal class BooktexBookChapterMetadataDbo
 {
-    public const string TableName = "book_chapter_meta";
+    public const string TableName = "book_chapter_metadata";
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     [Column("metadata_id")]
     public long MetadataId { get; set; }
+
+    [Column("chapter_id")]
+    public long ChapterId { get; set; }
 
     [Column("chapter_title")]
     public string? ChapterTitle { get; set; }
