@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 namespace Booktex.Persistence.Context;
 internal class BooktexDbContext : DbContext
 {
-
+    public const string CaseInsensitiveCollationName = "case_ins";
     public DbSet<BooktexSubscriptionDbo> Subscriptions { get; set; }
     public DbSet<BooktexSubscriptionExecutionDbo> Executions { get; set; }
     public DbSet<BooktexSubscriptionExecutionFileDbo> ExecutionFiles { get; set; }
@@ -37,6 +37,12 @@ internal class BooktexDbContext : DbContext
         configurationBuilder.Properties<DateTime>().HaveColumnType("timestamp without time zone");
         configurationBuilder.Properties<byte[]>().HaveColumnType("bytea");
     }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.HasCollation(CaseInsensitiveCollationName, "da-DK", "icu", deterministic: false);
+    }
+
 
 
 }

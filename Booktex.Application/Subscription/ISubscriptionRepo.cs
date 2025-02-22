@@ -12,6 +12,8 @@ public interface ISubscriptionRepo
 
     Task<BooktexGitHubSubscription> Create(BooktexGitHubSubscription subscription);
 
+    Task<long?> Exists(string githubOwner, string githubRepo, string? fileRegex);
+
     Task<BooktexGitHubSubscription> Update(BooktexGitHubSubscription subscription);
 
     Task<BooktexSubscriptionExecution> Create(long subscriptionId, BooktexSubscriptionExecution execution);

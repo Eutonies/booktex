@@ -3,11 +3,6 @@ using Booktex.Domain.Book.Model;
 using Booktex.Persistence.Book.Model;
 using Booktex.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Booktex.Persistence.Book;
 internal class BookRepo : IBookRepo
@@ -60,15 +55,33 @@ internal class BookRepo : IBookRepo
     private async Task SaveContents(BooktexDbContext cont, long? chapterId, long? aboutTheAuthorId, IEnumerable<BookChapterContent> contents)
     {
         var contentDbos = contents
-            .Select((cont, indx) => (Content: cont, Index: indx, Character: cont.))
+            .Select((con, indx) => (Content: con, Index: indx, Character: con.ExtractCharacter()))
             .ToList();
 
     }
+
+    private async Task SaveContentsNa(BooktexDbContext cont, long? chapterId, long? aboutTheAuthorId, IEnumerable<BookChapterContent> contents)
+    {
+        var contentDbos = contents
+            .Select((con, indx) => (Content: con, Index: indx, Character: con.ExtractCharacter()))
+            .ToList();
+        await Task.CompletedTask;
+    }
+
+
 
 }
 
 internal static class BookRepoExtensions
 {
-    public static BooktexBookCharacterDbo? ExtractCharacter(this BookChapterContent cont) => cont switch { }
+    public static BooktexBookCharacterDbo? ExtractCharacter(this BookChapterContent cont) => cont switch
+    {
+        BookCharacterLine lin => lin.Character.ToDbo(),
+        BookCharacterStoryTime st => st.Character.ToDbo(),
+        BookSinging sin => sin.Character.ToDbo(),
+        _ => null
+    };
+
+
 }
 
