@@ -68,11 +68,14 @@ internal class SubscriptionRepo : ISubscriptionRepo
         return returnee;
     }
 
-    public async Task<long?> Exists(string githubOwner, string githubRepo, string? fileRegex)
+    public async Task<BooktexSubscription?> Exists(string githubOwner, string githubRepo, string? fileRegex)
     {
         await using var cont = await _contextFactory.CreateDbContextAsync();
-
-        throw new NotImplementedException();
+        var existing = await cont.Subscriptions
+            .Where(_ => _.GitHubOwner == githubOwner && _.GitHubRepo == githubRepo && _.FileRegex == fileRegex)
+            .FirstOrDefaultAsync();
+        var returnee = existing?.ToDomain();
+        return returnee;
     }
 
     public async Task<IReadOnlyCollection<BooktexSubscription>> LoadSubscriptions()

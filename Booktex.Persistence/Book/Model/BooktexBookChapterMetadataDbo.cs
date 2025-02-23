@@ -45,8 +45,6 @@ internal class BooktexBookChapterMetadataDbo
 
     public void UpdateMetadataIds(IEnumerable<BooktexBookChapterMetadataMappingDbo> mappings)
     {
-        foreach(var mapp in mappings)
-            mapp.MetadataId = MetadataId;
     }
 
 }

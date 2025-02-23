@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 namespace Booktex.Persistence.Context;
 internal class BooktexDbContext : DbContext
 {
-    public const string CaseInsensitiveCollationName = "case_ins";
+    public const string CaseInsensitiveCollationName = "case_ins_col";
     public DbSet<BooktexSubscriptionDbo> Subscriptions { get; set; }
     public DbSet<BooktexSubscriptionExecutionDbo> Executions { get; set; }
     public DbSet<BooktexSubscriptionExecutionFileDbo> ExecutionFiles { get; set; }
@@ -40,7 +40,18 @@ internal class BooktexDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.HasCollation(CaseInsensitiveCollationName, "da-DK", "icu", deterministic: false);
+        var subEnt = modelBuilder.Entity<BooktexSubscriptionDbo>();
+        subEnt
+            .Property(_ => _.GitHubOwner)
+            .UseCollation(CaseInsensitiveCollationName);
+        subEnt
+            .Property(_ => _.GitHubRepo)
+            .UseCollation(CaseInsensitiveCollationName);
+        subEnt
+            .Property(_ => _.FileRegex)
+            .UseCollation(CaseInsensitiveCollationName);
+
+
     }
 
 

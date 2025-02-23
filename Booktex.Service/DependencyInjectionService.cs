@@ -1,6 +1,7 @@
 ﻿using Booktex.Application;
 using Booktex.Infrastructure;
 using Booktex.Persistence;
+using Microsoft.AspNetCore.Builder;
 
 namespace Booktex.Service;
 
@@ -22,7 +23,9 @@ public static class DependencyInjectionService
         builder.AddApplication();
         builder.AddInfrastructure();
         builder.AddPersistence();
-        builder.Services.AddControllers();
+        builder.Services.AddControllers(opts => 
+        {
+        });
         builder.Services.AddOpenApi();
         return builder;
     }
@@ -30,10 +33,15 @@ public static class DependencyInjectionService
 
     public static WebApplication UseServices(this WebApplication app)
     {
-        app.MapOpenApi();
-        app.UseHttpsRedirection();
+        app.UseRouting();
         app.UseAuthorization();
+        app.MapOpenApi();
+        app.UseSwaggerUI(opts =>
+        {
+            opts.SwaggerEndpoint("/openapi/v1.json", "v1");
+        });
         app.MapControllers();
+
         return app;
     }
 

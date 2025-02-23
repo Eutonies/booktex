@@ -14,4 +14,8 @@
     <ProjectReference Include="..\Booktex.Application\Booktex.Application.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="scripts\" />
+  </ItemGroup>
+
 </Project>

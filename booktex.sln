@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Booktex.Application", "Book
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Booktex.Persistence", "Booktex.Persistence\Booktex.Persistence.csproj", "{1A7F864C-8573-4863-BE58-8CF4D64C7DE4}"
 EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{72A432E2-ABB8-4E07-8DAF-BC5B46D1ACA9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{1A7F864C-8573-4863-BE58-8CF4D64C7DE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1A7F864C-8573-4863-BE58-8CF4D64C7DE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1A7F864C-8573-4863-BE58-8CF4D64C7DE4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{72A432E2-ABB8-4E07-8DAF-BC5B46D1ACA9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72A432E2-ABB8-4E07-8DAF-BC5B46D1ACA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72A432E2-ABB8-4E07-8DAF-BC5B46D1ACA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72A432E2-ABB8-4E07-8DAF-BC5B46D1ACA9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

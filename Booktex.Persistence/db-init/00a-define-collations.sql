@@ -1,0 +1,1 @@
+create collation case_ins_col (provider = icu, locale = 'und-x-icu-ks-level2', deterministic = false)

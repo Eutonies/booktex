@@ -2,6 +2,7 @@
 
 namespace Booktex.Service.Controllers;
 
+[ApiController]
 public class BooktexController : ControllerBase
 {
 
