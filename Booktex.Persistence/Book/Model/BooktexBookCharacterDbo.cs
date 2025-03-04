@@ -32,7 +32,7 @@ internal class BooktexBookCharacterDbo
     public string? InfoColor { get; set; }
     [Column("info_font")]
     public string? InfoFont { get; set; }
-    [Column("info_sitefont")]
+    [Column("info_site_font")]
     public string? InfoSiteFont { get; set; }
     [Column("character_alias")]
     public string? Alias { get; set; }
