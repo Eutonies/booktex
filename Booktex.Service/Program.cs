@@ -7,7 +7,7 @@ using Booktex.Domain.Subscription;
 using Booktex.Service;
 
 
-var inputFile = "C:/git/jen-and-will/story/01-03-2022A-The-Slaughterhouse Murder.story";
+var inputFile = "C:/git/jen-and-will/story/UNDECIDED-Will and Laura - Emotionally Responsible.story";
 var input = await File.ReadAllTextAsync(inputFile);
 var parseResult = WritingParser.ParseFileContents(input);
 
