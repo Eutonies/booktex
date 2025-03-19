@@ -1,0 +1,60 @@
+name: .NET build
+
+on:
+  workflow_dispatch:
+  push:  
+
+jobs:
+  define-version-number:
+    name: Calculate SemVer
+    runs-on: ubuntu-24.04
+    outputs:
+      package-version: ${{ steps.version_step.outputs.majorMinorPatch }}
+    steps:  
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0  
+    - name: Install GitVersion
+      uses: gittools/actions/gitversion/setup@v3.1.3
+      with:
+        versionSpec: '6.0.x'
+        preferLatestVersion: true
+    - name: Determine SemVer
+      id: version_step
+      uses: gittools/actions/gitversion/execute@v3.1.3
+    
+  build-and-publish:
+    permissions:
+      packages: write # for pushing GitHub Nuget packages
+
+    name: Build & Deploy
+    runs-on: windows-2025
+    needs: [ define-version-number ]
+    env:
+      packageversion: ${{ needs.define-version-number.outputs.package-version }}
+      packageid: Booktex.Domain
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 9.0.x
+    - name: .NET Build & Pack
+      shell: pwsh
+      run: |
+        dotnet build Booktex.Domain/Booktex.Domain.csproj -c Release
+        dotnet pack Booktex.Domain/Booktex.Domain.csproj -c Release --artifacts-path ./dist
+    - name: Publish to Nuget package repository
+      shell: pwsh
+      env:
+        actionsuser: ${{ secrets.EUTONIES_GITHUB_ACTIONS_USER }}
+      run: |
+        dotnet nuget add source --username $Env:actionsuser --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name "github" "https://nuget.pkg.github.com/Eutonies/index.json"
+        $packageFolder = "./dist/package/release"
+        $vers = $Env:packageversion
+        $versionName = "v$Env:packageversion"
+        gh release create $versionName "${packageFolder}/Booktex.Domain.${vers}.nupkg" "${packageFolder}/Booktex.Domain.${vers}.nupkg"
+        dotnet nuget push "${packageFolder}/Booktex.Domain.${vers}.nupkg" --source "github"
+        dotnet nuget push "${packageFolder}/Malarkey.Client.${vers}.nupkg" --source "github"
