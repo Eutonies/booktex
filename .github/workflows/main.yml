@@ -57,4 +57,3 @@ jobs:
         $versionName = "v$Env:packageversion"
         gh release create $versionName "${packageFolder}/Booktex.Domain.${vers}.nupkg" "${packageFolder}/Booktex.Domain.${vers}.nupkg"
         dotnet nuget push "${packageFolder}/Booktex.Domain.${vers}.nupkg" --source "github"
-        dotnet nuget push "${packageFolder}/Malarkey.Client.${vers}.nupkg" --source "github"
