@@ -14,8 +14,9 @@ public static class WritingParser
     private const char ParenthStartChar = '(';
     private const char ParenthEndChar = ')';
     private const char NewLineChar = '\n';
+    private const string DialogStartTagName = "#(dialog)";
+    private const string DialogEndTagName = "#end";
 
-    private static readonly Regex ContextBreakRegex = new Regex(@"\n( |\t)*\r*\n");
     private static readonly Regex CommentStartRegex = new Regex(@"(\n?- *\(([a-z]| |[0-9]|-|,|&)+\))", RegexOptions.IgnoreCase);
     private static readonly Regex FileNameRegex = new Regex(@"([0-9]{4}-[0-9]{2}-[0-9]{2})([A-Z]+)?-(.*)\.story", RegexOptions.IgnoreCase);
     private static readonly Regex StoryTimeRegex = new Regex(@"#storystart\(([^\|]+)\|([^\)]+)\)", RegexOptions.IgnoreCase);
@@ -68,6 +69,18 @@ public static class WritingParser
 
         return returnee;
     }
+    public static IReadOnlyCollection<BookChapterContent> ParseFileContents(
+        string fileContent,
+        IReadOnlyDictionary<string, string>? aliases = null,
+        IReadOnlyDictionary<string, BookCharacterInfo>? characterInfos = null) =>
+        ParseFileContents(
+            fileContent,
+            currentIndex: 0,
+            metadata: null,
+            aliases: aliases ?? new Dictionary<string, string>(),
+            characterInfos: characterInfos ?? new Dictionary<string, BookCharacterInfo>()
+           );
+
 
     private static IReadOnlyCollection<BookChapterContent> ParseFileContents(
         string fileContent, 
@@ -85,6 +98,14 @@ public static class WritingParser
             {
                 parsed.Add(asContextBreak.Result);
                 currentIndex = asContextBreak.CurrentIndex;
+                continue;
+            }
+
+            var asDialog = TryParseDialog(fileContent, currentIndex);
+            if (asDialog != null)
+            {
+                parsed.Add(asDialog.Result);
+                currentIndex = asDialog.CurrentIndex;
                 continue;
             }
 
@@ -241,9 +262,11 @@ public static class WritingParser
         var narrationListItems = new List<string>();
         while(currentIndex < input.Length)
         {
-            if (currentIndex > 1 && input.Substring(currentIndex - 1).StartsWith("\n..."))
+            var rest = currentIndex == 0 ? input : input.Substring(currentIndex - 1);
+            if (currentIndex > 1 && rest.StartsWith("\n..."))
                 break;
-
+            if (currentIndex > 1 && rest.ToLower().StartsWith($"\n{DialogStartTagName}"))
+                break;
             if (!input.Substring(currentIndex).Contains(NewLineChar))
             {
                 var onThisLine = input.Substring(currentIndex);
@@ -310,6 +333,50 @@ public static class WritingParser
             narrationListItems.Clear();
         }
 
+    }
+
+    private static ParseResult<TopLevelPart>? TryParseDialog(string input, int startIndex)
+    {
+        var currentIndex = startIndex;
+        ForwardPastSpaces(ref currentIndex, input, alsoForwardPastNewLine: true);
+        var rest = input.Substring(currentIndex);
+        if (!rest.ToLower().StartsWith(DialogStartTagName))
+            return null;
+        var comments = new List<CharacterComment>();
+        var doneYet = false;
+        currentIndex = input.IndexOf("\n", currentIndex) - 1;
+        ForwardPastSpaces(ref currentIndex, input, alsoForwardPastNewLine: true);
+        while (!doneYet)
+        {
+            var characterCommentResult = TryParseCharacterAction(input, currentIndex);
+            if(characterCommentResult != null && characterCommentResult.Result is CharacterComment comm)
+            {
+                comments.Add(comm);
+                currentIndex = characterCommentResult.CurrentIndex;
+            }
+            else
+            {
+                currentIndex = input.IndexOf("\n", currentIndex) - 1;
+            }
+            ForwardPastSpaces(ref currentIndex, input, alsoForwardPastNewLine: true);
+            rest = input.Substring(currentIndex);
+            if(rest.ToLower().StartsWith(DialogEndTagName))
+                doneYet = true;
+
+        }
+        currentIndex = input.ToLower().IndexOf(DialogEndTagName, startIndex) + DialogEndTagName.Length;
+        var leftSide = comments
+            .First().CharacterName;
+        var rightSide = comments
+            .Where(_ => _.CharacterName != leftSide)
+            .First().CharacterName;
+        var matchedString = input.Captured(startIndex, currentIndex);
+
+        return new ParseResult<TopLevelPart>(
+            Input: input,
+            Result: new Dialog(leftSide, rightSide, comments),
+            CurrentIndex: currentIndex,
+            ParsedPart: matchedString);
     }
 
 
@@ -482,6 +549,16 @@ public static class WritingParser
                    .ToList(),
                 IsThought: comm.IsThinking
                 ),
+            Dialog dia => new BookDialog(
+                LeftSide: CharacterFrom(dia.CharacterLeft, characters, aliases),
+                RightSide: CharacterFrom(dia.CharacterRight, characters, aliases),
+                Entries: dia.Comments
+                   .Select(comm => 
+                              comm.CharacterName.ToLower().Trim() == dia.CharacterLeft.ToLower().Trim() ? 
+                              BookDialogEntry.Left((comm.ToDomain(characters, aliases) as BookCharacterLine)!) :
+                              BookDialogEntry.Right((comm.ToDomain(characters, aliases) as BookCharacterLine)!)
+                   ).ToList()
+            ),
             ContextBreak ctb => new BookContextBreak(),
             Singing sing => new BookSinging(
                 Character: CharacterFrom(sing.CharacterName, characters, aliases),
@@ -507,5 +584,6 @@ public static class WritingParser
     private record ContextBreak() : TopLevelPart();
     private record CharacterComment(string CharacterName, IReadOnlyCollection<QuotedCommentLine> CommentLines, bool IsThinking = false) : TopLevelPart;
     private record QuotedCommentLine(string Comment, string? Description = null);
+    private record Dialog(string CharacterLeft, string CharacterRight, IReadOnlyCollection<CharacterComment> Comments) : TopLevelPart;
 
 }
