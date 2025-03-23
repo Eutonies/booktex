@@ -258,7 +258,10 @@ public static class WritingParser
         return returnee;
     }
 
-
+    private static readonly IReadOnlySet<string> StartTagsForStopping = 
+        new List<string> { QuoteStartTagName, DialogStartTagName }
+        .Select(_ => _.ToLower())
+        .ToHashSet();
     private static IReadOnlyCollection<ParseResult<TopLevelPart>>? TryParseNarration(string input, int startIndex)
     {
         var returnee = new List<ParseResult<TopLevelPart>>();
@@ -276,7 +279,8 @@ public static class WritingParser
             var rest = currentIndex == 0 ? input : input.Substring(currentIndex - 1);
             if (currentIndex > 1 && rest.StartsWith("\n..."))
                 break;
-            if (currentIndex > 1 && rest.ToLower().StartsWith($"\n{DialogStartTagName}"))
+            var lowerRest = rest.ToLower().Trim();
+            if (currentIndex > 1 && StartTagsForStopping.Any(tag => lowerRest.StartsWith(tag)))
                 break;
             if (!input.Substring(currentIndex).Contains(NewLineChar))
             {
@@ -361,7 +365,7 @@ public static class WritingParser
                 (name, subName) = (match.Groups[1].Value, match.Groups[2].Value.Replace("|",""));
             else name = match.Groups[1].Value;
         }
-        currentIndex = input.IndexOf("\n") + 1;
+        currentIndex = input.IndexOf("\n", currentIndex) + 1;
         var endTagIndex = input.IndexOf(QuoteEndTagName, startIndex);
         if (endTagIndex < 0)
             endTagIndex = input.Length - 1;
