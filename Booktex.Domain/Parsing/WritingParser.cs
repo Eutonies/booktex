@@ -16,11 +16,14 @@ public static class WritingParser
     private const char NewLineChar = '\n';
     private const string DialogStartTagName = "#(dialog)";
     private const string DialogEndTagName = "#end";
+    private const string QuoteStartTagName = "#(quote)";
+    private const string QuoteEndTagName = DialogEndTagName;
 
     private static readonly Regex CommentStartRegex = new Regex(@"(\n?- *\(([a-z]| |[0-9]|-|,|&)+\))", RegexOptions.IgnoreCase);
     private static readonly Regex FileNameRegex = new Regex(@"([0-9]{4}-[0-9]{2}-[0-9]{2})([A-Z]+)?-(.*)\.story", RegexOptions.IgnoreCase);
     private static readonly Regex StoryTimeRegex = new Regex(@"#storystart\(([^\|]+)\|([^\)]+)\)", RegexOptions.IgnoreCase);
     private static readonly Regex SectionRegex = new Regex(@"#section\(([^\)]+)\)", RegexOptions.IgnoreCase);
+    private static readonly Regex QuoteNameRegex = new Regex(@"#\(quote\)\[([^\|]*)(.*)\]", RegexOptions.IgnoreCase);
 
     private const string StoryTimeEndTagName = "#storyend";
 
@@ -98,6 +101,14 @@ public static class WritingParser
             {
                 parsed.Add(asContextBreak.Result);
                 currentIndex = asContextBreak.CurrentIndex;
+                continue;
+            }
+
+            var asQuote = TryParseQuote(fileContent, currentIndex);
+            if (asQuote != null)
+            {
+                parsed.Add(asQuote.Result);
+                currentIndex = asQuote.CurrentIndex;
                 continue;
             }
 
@@ -334,6 +345,36 @@ public static class WritingParser
         }
 
     }
+    private static ParseResult<TopLevelPart>? TryParseQuote(string input, int startIndex)
+    {
+        var currentIndex = startIndex;
+        ForwardPastSpaces(ref currentIndex, input, alsoForwardPastNewLine: true);
+        var rest = input.Substring(currentIndex);
+        if (!rest.ToLower().StartsWith(QuoteStartTagName))
+            return null;
+        (string? name, string? subName) = (null, null);
+        var match = QuoteNameRegex.Matches(rest)
+            .FirstOrDefault();
+        if(match != null)
+        {
+            if (match.Groups.Count > 2)
+                (name, subName) = (match.Groups[1].Value, match.Groups[2].Value.Replace("|",""));
+            else name = match.Groups[1].Value;
+        }
+        currentIndex = input.IndexOf("\n") + 1;
+        var endTagIndex = input.IndexOf(QuoteEndTagName, startIndex);
+        if (endTagIndex < 0)
+            endTagIndex = input.Length - 1;
+        var matched = input.Captured(currentIndex, endTagIndex);
+        currentIndex = endTagIndex + QuoteEndTagName.Length + 1;
+        if(currentIndex >= input.Length)
+            currentIndex = input.Length - 1;
+        var quote = new Quote(name, subName, matched);
+        var returnee = new ParseResult<TopLevelPart>(input, quote, currentIndex, matched);
+        return returnee;
+        
+    }
+
 
     private static ParseResult<TopLevelPart>? TryParseDialog(string input, int startIndex)
     {
@@ -572,6 +613,7 @@ public static class WritingParser
                 Story: st.Story
                 ),
             Section sec => new BookChapterSection(sec.Title),
+            Quote quot => new BookQuote(quot.Name, quot.SubName, quot.QuoteText),
             _ => throw new Exception("WHAT???")
         };
     }
@@ -585,5 +627,7 @@ public static class WritingParser
     private record CharacterComment(string CharacterName, IReadOnlyCollection<QuotedCommentLine> CommentLines, bool IsThinking = false) : TopLevelPart;
     private record QuotedCommentLine(string Comment, string? Description = null);
     private record Dialog(string CharacterLeft, string CharacterRight, IReadOnlyCollection<CharacterComment> Comments) : TopLevelPart;
+
+    private record Quote(string? Name, string? SubName, string QuoteText) : TopLevelPart;
 
 }
