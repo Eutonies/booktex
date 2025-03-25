@@ -16,6 +16,9 @@ public static class WritingParser
     private const char NewLineChar = '\n';
     private const string DialogStartTagName = "#(dialog)";
     private const string DialogEndTagName = "#end";
+    private const string PhoneStartTagName = "#(phone)";
+    private const string SMSStartTagName = "#(sms)";
+
     private const string QuoteStartTagName = "#(quote)";
     private const string QuoteEndTagName = DialogEndTagName;
 
@@ -258,9 +261,7 @@ public static class WritingParser
         return returnee;
     }
 
-    private static readonly IReadOnlySet<string> StartTagsForStopping = 
-        new List<string> { QuoteStartTagName, DialogStartTagName }
-        .Select(_ => _.ToLower())
+    private static IReadOnlySet<string> StartTagsForStopping => AllDialogStartTags
         .ToHashSet();
     private static IReadOnlyCollection<ParseResult<TopLevelPart>>? TryParseNarration(string input, int startIndex)
     {
@@ -274,13 +275,15 @@ public static class WritingParser
             return null;
         var narrationBuilder = new StringBuilder();
         var narrationListItems = new List<string>();
+        var stopTags = StartTagsForStopping;
         while(currentIndex < input.Length)
         {
             var rest = currentIndex == 0 ? input : input.Substring(currentIndex - 1);
             if (currentIndex > 1 && rest.StartsWith("\n..."))
                 break;
             var lowerRest = rest.ToLower().Trim();
-            if (currentIndex > 1 && StartTagsForStopping.Any(tag => lowerRest.StartsWith(tag)))
+
+            if (currentIndex > 1 && stopTags.Any(tag => lowerRest.StartsWith(tag)))
                 break;
             if (!input.Substring(currentIndex).Contains(NewLineChar))
             {
@@ -379,14 +382,21 @@ public static class WritingParser
         
     }
 
-
+    private static readonly IReadOnlyCollection<string> AllDialogStartTags = 
+        new List<string> { DialogStartTagName, PhoneStartTagName, SMSStartTagName }.ToHashSet();
     private static ParseResult<TopLevelPart>? TryParseDialog(string input, int startIndex)
     {
         var currentIndex = startIndex;
         ForwardPastSpaces(ref currentIndex, input, alsoForwardPastNewLine: true);
         var rest = input.Substring(currentIndex);
-        if (!rest.ToLower().StartsWith(DialogStartTagName))
+        var lowerRest = rest.ToLower();
+        if (!AllDialogStartTags.Any(tag => lowerRest.StartsWith(tag)))
             return null;
+        BookInteractionType? interactionType = null;
+        if (lowerRest.StartsWith(PhoneStartTagName))
+            interactionType = BookInteractionType.PhoneCall;
+        if (lowerRest.StartsWith(SMSStartTagName))
+            interactionType = BookInteractionType.SMS;
         var comments = new List<CharacterComment>();
         var doneYet = false;
         currentIndex = input.IndexOf("\n", currentIndex) - 1;
@@ -419,7 +429,7 @@ public static class WritingParser
 
         return new ParseResult<TopLevelPart>(
             Input: input,
-            Result: new Dialog(leftSide, rightSide, comments),
+            Result: new Dialog(leftSide, rightSide, comments, interactionType),
             CurrentIndex: currentIndex,
             ParsedPart: matchedString);
     }
@@ -437,12 +447,19 @@ public static class WritingParser
         var isThinking = false;
         var isSinging = false;
         var name = nameMatchValue.Trim();
+        BookInteractionType? interactionType = null;
         if(nameMatchValue.Contains('-'))
         {
             var splitted = nameMatchValue.Split('-');
             name = splitted[0].Trim();
-            isThinking = splitted[1].ToLower().Contains("think");
-            isSinging = splitted[1].ToLower().Contains("sing");
+            var matchOn = splitted[1].ToLower();
+            isThinking = matchOn.Contains("think");
+            isSinging = matchOn.Contains("sing");
+            if (matchOn.Contains("phone"))
+                interactionType = BookInteractionType.PhoneCall;
+            else if (matchOn.Contains("sms"))
+                interactionType = BookInteractionType.SMS;
+
         }
         currentIndex = nameMatch.Index + nameMatch.Value.Length;
         if (currentIndex >= input.Length)
@@ -467,7 +484,7 @@ public static class WritingParser
             return new ParseResult<TopLevelPart>(input, song, currentIndex, matchedString);
         }
 
-        var comment = new CharacterComment(CharacterName: name, CommentLines: lines, IsThinking: isThinking);
+        var comment = new CharacterComment(CharacterName: name, CommentLines: lines, IsThinking: isThinking, interactionType);
         return new ParseResult<TopLevelPart>(input, comment, currentIndex, matchedString);
     }
 
@@ -592,7 +609,8 @@ public static class WritingParser
                 LineParts: comm.CommentLines
                    .Select(lp => new BookCharacterLinePart(lp.Comment, lp.Description))
                    .ToList(),
-                IsThought: comm.IsThinking
+                IsThought: comm.IsThinking,
+                InteractionType: comm.InteractionType
                 ),
             Dialog dia => new BookDialog(
                 LeftSide: CharacterFrom(dia.CharacterLeft, characters, aliases),
@@ -602,7 +620,8 @@ public static class WritingParser
                               comm.CharacterName.ToLower().Trim() == dia.CharacterLeft.ToLower().Trim() ? 
                               BookDialogEntry.Left((comm.ToDomain(characters, aliases) as BookCharacterLine)!) :
                               BookDialogEntry.Right((comm.ToDomain(characters, aliases) as BookCharacterLine)!)
-                   ).ToList()
+                   ).ToList(),
+                InteractionType: dia.InteractionType
             ),
             ContextBreak ctb => new BookContextBreak(),
             Singing sing => new BookSinging(
@@ -628,9 +647,9 @@ public static class WritingParser
     private record Singing(string CharacterName, IReadOnlyCollection<string> Content) : TopLevelPart;
     private record StoryTime(string CharacterName, string Title, string Story) : TopLevelPart;
     private record ContextBreak() : TopLevelPart();
-    private record CharacterComment(string CharacterName, IReadOnlyCollection<QuotedCommentLine> CommentLines, bool IsThinking = false) : TopLevelPart;
+    private record CharacterComment(string CharacterName, IReadOnlyCollection<QuotedCommentLine> CommentLines, bool IsThinking = false, BookInteractionType? InteractionType = null) : TopLevelPart;
     private record QuotedCommentLine(string Comment, string? Description = null);
-    private record Dialog(string CharacterLeft, string CharacterRight, IReadOnlyCollection<CharacterComment> Comments) : TopLevelPart;
+    private record Dialog(string CharacterLeft, string CharacterRight, IReadOnlyCollection<CharacterComment> Comments, BookInteractionType? InteractionType) : TopLevelPart;
 
     private record Quote(string? Name, string? SubName, string QuoteText) : TopLevelPart;
 

@@ -8,7 +8,8 @@ namespace Booktex.Domain.Book.Model;
 public record BookDialog(
     BookCharacter LeftSide,
     BookCharacter RightSide,
-    IReadOnlyCollection<BookDialogEntry> Entries
+    IReadOnlyCollection<BookDialogEntry> Entries,
+    BookInteractionType? InteractionType = null
     ) : BookChapterContent()
 {
 }

@@ -7,7 +7,7 @@ using Booktex.Domain.Subscription;
 using Booktex.Service;
 
 
-var inputFile = "C:/git/jen-and-will/story/UNDECIDED-Will and Laura - The BDSM Cases.story";
+var inputFile = "C:/git/jen-and-will/story/29-03-2022A-Will and Jen - Arrest.story";
 var input = await File.ReadAllTextAsync(inputFile);
 var parseResult = WritingParser.ParseFileContents(input);
 

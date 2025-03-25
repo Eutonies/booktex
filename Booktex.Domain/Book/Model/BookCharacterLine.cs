@@ -2,5 +2,6 @@
 public record BookCharacterLine(
     BookCharacter Character,
     IReadOnlyCollection<BookCharacterLinePart> LineParts,
-    bool IsThought = false
+    bool IsThought = false,
+    BookInteractionType? InteractionType = null
     ) : BookChapterContent;
