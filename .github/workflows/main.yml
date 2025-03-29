@@ -60,7 +60,7 @@ jobs:
     - name: ProduceNuSpec
       shell: pwsh
       env:
-        PKGVERS: ${{ env.packageversion }}
+        PKGVERS: ${{ needs.define-version-number.outputs.package-version }}
       run: |
           Scripts/ProduceNuSpecFile.ps1 -PackageId Booktex.Domain -Version $Env:PKGVERS -MainProjectFolder Booktex.Domain
           Scripts/ProduceNuSpecFile.ps1 -PackageId Booktex.Html -Version $Env:PKGVERS -MainProjectFolder Booktex.Html
@@ -68,7 +68,7 @@ jobs:
     - name: .NET Build & Pack
       shell: pwsh
       env:
-        PKGVERS: ${{ env.packageversion }}
+        PKGVERS: ${{ needs.define-version-number.outputs.package-version }}
       run: |
         dotnet build Booktex.Domain/Booktex.Domain.csproj -c Release
         dotnet pack Booktex.Domain/Booktex.Domain.csproj -c Release --artifacts-path ./dist -p:AssemblyVersion=$Env:PKGVERS -p:Version=$Env:PKGVERS
