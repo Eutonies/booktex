@@ -83,7 +83,7 @@ jobs:
         actionsuser: ${{ secrets.EUTONIES_GITHUB_ACTIONS_USER }}
         galleryuser: ${{ secrets.EUTONIES_NUGET_GALLERY_USER }}
         gallerykey: ${{ secrets.EUTONIES_NUGET_GALLERY_APIKEY }}
-
+        GH_TOKEN: ${{ github.token }}
       run: |
         dotnet nuget add source --username $Env:actionsuser --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name "github" "https://nuget.pkg.github.com/Eutonies/index.json"
         $packageFolder = "./dist/package/release"
