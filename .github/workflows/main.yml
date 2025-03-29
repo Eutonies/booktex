@@ -71,9 +71,9 @@ jobs:
         PKGVERS: ${{ env.packageversion }}
       run: |
         dotnet build Booktex.Domain/Booktex.Domain.csproj -c Release
-        dotnet pack Booktex.Domain/Booktex.Domain.csproj -c Release --artifacts-path ./dist /p:Version=$Env:PKGVERS
+        dotnet pack Booktex.Domain/Booktex.Domain.csproj -c Release --artifacts-path ./dist -p:AssemblyVersion=$Env:PKGVERS -p:Version=$Env:PKGVERS
         dotnet build Booktex.Html/Booktex.Html.csproj -c Release
-        dotnet pack Booktex.Html/Booktex.Html.csproj -c Release --artifacts-path ./dist /p:Version=$Env:PKGVERS
+        dotnet pack Booktex.Html/Booktex.Html.csproj -c Release --artifacts-path ./dist -p:AssemblyVersion=$Env:PKGVERS -p:Version=$Env:PKGVERS
 
 
 
