@@ -4,6 +4,12 @@
     <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <PackageId>Booktex.Domain</PackageId>
+    <Authors>Sune Rønne</Authors>
+    <Description>Jus' the Booktex definitions</Description>
+    <RepositoryUrl>https://github.com/Eutonies/booktex</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <DocumentationFile>readme.MD</DocumentationFile>
   </PropertyGroup>
 
 </Project>
