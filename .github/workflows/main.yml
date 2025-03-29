@@ -57,6 +57,12 @@ jobs:
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 9.0.x
+    - name: ProduceNuSpec
+      shell: pwsh
+      run: |
+          Scripts/ProduceNuSpecFile.ps1 -PackageId Booktex.Domain -Version $Env:packageversion -MainProjectFolder Booktex.Domain
+          Scripts/ProduceNuSpecFile.ps1 -PackageId Booktex.Html -Version $Env:packageversion -MainProjectFolder Booktex.Html
+
     - name: .NET Build & Pack
       shell: pwsh
       run: |
@@ -64,6 +70,8 @@ jobs:
         dotnet pack Booktex.Domain/Booktex.Domain.csproj -c Release --artifacts-path ./dist /p:Version=$Env:packageversion
         dotnet build Booktex.Html/Booktex.Html.csproj -c Release
         dotnet pack Booktex.Html/Booktex.Html.csproj -c Release --artifacts-path ./dist /p:Version=$Env:packageversion
+
+
 
     - name: Publish to Nuget package repository
       shell: pwsh
