@@ -9,7 +9,7 @@ jobs:
     name: Calculate SemVer
     runs-on: ubuntu-24.04
     outputs:
-      package-version: ${{ steps.version_step.outputs.majorMinorPatch }}
+      package-version: ${{ steps.version_inc_step.outputs.SEMVER }}
     steps:  
     - name: Checkout
       uses: actions/checkout@v4
@@ -23,6 +23,22 @@ jobs:
     - name: Determine SemVer
       id: version_step
       uses: gittools/actions/gitversion/execute@v3.1.3
+
+    - name: Increment Semver
+      shell: pwsh
+      id: version_inc_step
+      env: 
+        currentsemver: ${{steps.version_step.outputs.majorMinorPatch }}  
+      run: |
+         $semverString = "$Env:currentsemver"
+         $semver =  [version]$semverString
+         $major = $semver.Major
+         $minor = $semver.Minor
+         $build = $semver.Build
+         $build = $build + 1
+         $nextSemver = "$major.$minor.$build"
+         Write-Host "Will use next SemVer=$nextSemver" 
+         Write-Output "SEMVER=$nextSemver"
     
   build-and-publish:
     permissions:
@@ -45,9 +61,9 @@ jobs:
       shell: pwsh
       run: |
         dotnet build Booktex.Domain/Booktex.Domain.csproj -c Release
-        dotnet pack Booktex.Domain/Booktex.Domain.csproj -c Release --artifacts-path ./dist
+        dotnet pack Booktex.Domain/Booktex.Domain.csproj -c Release --artifacts-path ./dist /p:Version=$Env:packageversion
         dotnet build Booktex.Html/Booktex.Html.csproj -c Release
-        dotnet pack Booktex.Html/Booktex.Html.csproj -c Release --artifacts-path ./dist
+        dotnet pack Booktex.Html/Booktex.Html.csproj -c Release --artifacts-path ./dist /p:Version=$Env:packageversion
 
     - name: Publish to Nuget package repository
       shell: pwsh
@@ -58,7 +74,6 @@ jobs:
 
       run: |
         dotnet nuget add source --username $Env:actionsuser --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name "github" "https://nuget.pkg.github.com/Eutonies/index.json"
-        dotnet nuget add source --username $Env:galleryuser --password $Env:gallerykey --store-password-in-clear-text --name "eutgal" "https://api.nuget.org/v3/index.json"
         $packageFolder = "./dist/package/release"
         $vers = $Env:packageversion
         $versionName = "v$Env:packageversion"
@@ -66,5 +81,5 @@ jobs:
         gh release create $versionName "${packageFolder}/Booktex.Html.${vers}.nupkg" "${packageFolder}/Booktex.Html.${vers}.nupkg"
         dotnet nuget push "${packageFolder}/Booktex.Domain.${vers}.nupkg" --source "github"
         dotnet nuget push "${packageFolder}/Booktex.Html.${vers}.nupkg" --source "github"
-        dotnet nuget push "${packageFolder}/Booktex.Domain.${vers}.nupkg" --source "eutgal"
-        dotnet nuget push "${packageFolder}/Booktex.Html.${vers}.nupkg" --source "eutgal"
+        dotnet nuget push "${packageFolder}/Booktex.Domain.${vers}.nupkg" --source "https://api.nuget.org/v3/index.json" --api-key $Env:gallerykey --user $Env:galleryuser
+        dotnet nuget push "${packageFolder}/Booktex.Html.${vers}.nupkg" --source "https://api.nuget.org/v3/index.json" --api-key $Env:gallerykey --user $Env:galleryuser
