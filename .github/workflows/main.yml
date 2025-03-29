@@ -93,5 +93,5 @@ jobs:
         gh release create $versionName "${packageFolder}/Booktex.Html.${vers}.nupkg" "${packageFolder}/Booktex.Html.${vers}.nupkg"
         dotnet nuget push "${packageFolder}/Booktex.Domain.${vers}.nupkg" --source "github"
         dotnet nuget push "${packageFolder}/Booktex.Html.${vers}.nupkg" --source "github"
-        dotnet nuget push "${packageFolder}/Booktex.Domain.${vers}.nupkg" --source "https://api.nuget.org/v3/index.json" --api-key $Env:gallerykey --user $Env:galleryuser
-        dotnet nuget push "${packageFolder}/Booktex.Html.${vers}.nupkg" --source "https://api.nuget.org/v3/index.json" --api-key $Env:gallerykey --user $Env:galleryuser
+        dotnet nuget push "${packageFolder}/Booktex.Domain.${vers}.nupkg" --source "https://api.nuget.org/v3/index.json" --api-key $Env:gallerykey
+        dotnet nuget push "${packageFolder}/Booktex.Html.${vers}.nupkg" --source "https://api.nuget.org/v3/index.json" --api-key $Env:gallerykey
