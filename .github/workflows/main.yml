@@ -43,6 +43,7 @@ jobs:
   build-and-publish:
     permissions:
       packages: write # for pushing GitHub Nuget packages
+      contents: write
 
     name: Build & Deploy
     runs-on: windows-2025
