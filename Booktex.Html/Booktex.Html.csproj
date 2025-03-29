@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <PackageId>Booktex.Html</PackageId>
+    <Authors>Sune Rønne</Authors>
+    <Description>Jus' sum reuseable components for rendering Booktex-style stories in HTML</Description>
+    <RepositoryUrl>https://github.com/Eutonies/booktex</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <DocumentationFile>readme.MD</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <SupportedPlatform Include="browser" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="9.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Booktex.Domain\Booktex.Domain.csproj" />
+  </ItemGroup>
+
+
+
+</Project>

@@ -1,0 +1,26 @@
+﻿@using Booktex.Domain.Book.Model
+
+@if(ImageSpec != null) {
+    <style>
+        @ImageSpec.ToCssMarkup(BackgroundImageClass!)
+    </style>
+}
+
+<div class="story-quote @BackgroundImageClass">
+    <div class="story-quote-text">
+        @foreach(var quotLin in Quote.QuoteString.Split('\n')) 
+        {
+            <div class="story-quote-text-line">@quotLin</div>
+        }
+    </div>
+    @if(Quote.Name != null) 
+    {
+        <div class="story-quote-footer">
+            <div class="story-quote-footer-name">@Quote.Name</div>
+            @if(Quote.SubName != null) 
+            {
+                <div class="story-quote-footer-sub-name"> - @Quote.SubName</div>
+            }
+        </div>
+    }
+</div>

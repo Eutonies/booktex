@@ -1,0 +1,23 @@
+﻿.story-context-break {
+    background-image: url('images/story/context-break.webp');
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+@media only screen and (max-width: 990px) {
+    .story-context-break {
+        position: relative;
+        left: -38px;
+        width: 367px;
+        height: 45px;
+    }
+}
+
+@media only screen and (min-width: 990px) {
+    .story-context-break {
+        left: 1px;
+        width: 945px;
+        margin-left: -90px;
+        aspect-ratio: 367/45;
+    }
+}

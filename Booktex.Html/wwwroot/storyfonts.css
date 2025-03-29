@@ -1,0 +1,13 @@
+﻿@font-face {
+    font-family: 'StoryElite';
+    font-weight: 500;
+    font-style: normal;
+    src: url('fonts/SpecialElite.ttf');
+}
+
+@font-face {
+    font-family: 'StoryInkFree';
+    font-weight: 500;
+    font-style: normal;
+    src: url('fonts/Inkfree.ttf');
+}

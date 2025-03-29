@@ -1,0 +1,15 @@
+﻿@using Booktex.Domain.Book.Model
+<div class="story-sing">
+    @foreach(var (txt, indx) in AllLines) 
+    {
+        <div class="story-sing-line">
+            <div class="story-sing-line-name" style="width: @(Singing.Character.CharacterName.Length * 6)px;">
+                @if (indx == 0)
+                {
+                    <div class="story-sing-line-name-text">@(Singing.Character.CharacterName)</div>
+                }
+            </div>
+            <div class="story-sing-line-text">@(txt)</div>
+        </div>
+    }
+</div>

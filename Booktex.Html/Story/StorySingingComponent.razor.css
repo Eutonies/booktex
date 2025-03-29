@@ -1,0 +1,67 @@
+﻿@media only screen and (max-width: 990px) {
+    .story-sing {
+        background-image: url('images/story/music.webp');
+        background-size: 30px;
+        background-repeat: no-repeat;
+        background-position-y: 15px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .story-sing-line {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .story-sing-line-name {
+        font-weight: 900;
+        margin-right: 20px;
+    }
+
+    .story-sing-line-text {
+        font-family: 'StoryInkFree';
+        font-size: 8pt;
+        font-style: italic;
+        color: rgb(9, 66, 109);
+    }
+
+    .story-line-description {
+        font-style: italic;
+    }
+
+}
+
+@media only screen and (min-width: 990px) {
+    .story-sing {
+        background-image: url('images/story/music.webp');
+        background-size: 30px;
+        background-repeat: no-repeat;
+        background-position-y: 15px;
+        display: flex;
+        flex-direction: column;
+    }
+
+
+    .story-sing-line {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .story-sing-line-name {
+        font-weight: 900;
+        margin-right: 60px;
+    }
+
+    .story-sing-line-text {
+        font-family: 'StoryInkFree';
+        font-size: 12pt;
+        font-style: italic;
+        color: rgb(9, 66, 109);
+    }
+
+    .story-line-description {
+        font-style: italic;
+    }
+
+}
+

@@ -1,0 +1,54 @@
+﻿@using Booktex.Domain.Book.Model
+<div class="story-character-line">
+    @if(!IsRight) 
+    {
+        @foreach (var (linPart, lpIndx) in Line.LineParts.Select((_, indx) => (_, indx)))
+        {
+            <div class="story-character-line-part left-side">
+                <div class="story-character-line-part-name" style="width: @(Line.Character.CharacterName.Length * 6)px;">
+                    @if (lpIndx == 0)
+                    {
+                        <div class="story-character-line-part-name-text">@(Line.Character.CharacterName)</div>
+                        @if (InteractionClass != null)
+                        {
+                            <div class="@InteractionClass"></div>
+                        }
+                    }
+                </div>
+
+                <div class="story-character-line-part-text-container">
+                    <div class="story-character-line-part-text">@(linPart.PartText)</div>
+                    @if (linPart.Description != null)
+                    {
+                        <div class="story-character-line-part-description">[@(linPart.Description)]</div>
+                    }
+                </div>
+            </div>
+
+        }
+    }
+    else
+    {
+        @foreach (var (linPart, lpIndx) in Line.LineParts.Select((_, indx) => (_, indx)))
+        {
+            <div class="story-character-line-part right-side">
+                <div class="story-character-line-part-text-container">
+                    <div class="story-character-line-part-text">@(linPart.PartText)</div>
+                    @if (linPart.Description != null)
+                    {
+                        <div class="story-character-line-part-description">[@(linPart.Description)]</div>
+                    }
+                </div>
+                <div class="story-character-line-part-name" style="width: @(Line.Character.CharacterName.Length * 3)px;">
+                    @if (lpIndx == 0)
+                    {
+                        <div class="story-character-line-part-name-text">@(Line.Character.CharacterName)</div>
+                        @if(InteractionClass != null) {
+                            <div class="@InteractionClass"></div>
+                        }
+                    }
+                </div>
+            </div>
+        }
+    }
+</div>

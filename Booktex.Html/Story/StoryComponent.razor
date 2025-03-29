@@ -1,0 +1,54 @@
+﻿@using Booktex.Domain.Book.Model
+@using Booktex.Html.Common
+
+<link rel="stylesheet" href="@("storyfonts.css".ResRef())" />
+
+<div class="story-container">
+    <div class="story-page">
+        <div class="story-header">
+            <div class="story-header-name">@ChapterName</div>
+            @if (ChapterSubName != null)
+            {
+                <div class="story-header-sub-name">@ChapterSubName</div>
+            }
+        </div>
+
+    @foreach(var cont in Contents) 
+    {
+        if (cont is BookCharacterLine lin)
+        {
+            <StoryCharacterLineComponent Line="lin" IsRight="false" InteractionType="@lin.InteractionType"></StoryCharacterLineComponent>
+        }
+        else if(cont is BookSinging sing) 
+        {
+            <StorySingingComponent Singing="sing"></StorySingingComponent>
+        }
+        else if (cont is BookDialog diag)
+        {
+            foreach (var ent in diag.Entries)
+            {
+                <StoryCharacterLineComponent Line="ent.Line" IsRight="@(ent.LeftSide == null)" InteractionType="diag.InteractionType"></StoryCharacterLineComponent>
+            }
+
+        }
+        else if (cont is BookNarration narr)
+        {
+            <StoryNarrationComponent Narration="narr"></StoryNarrationComponent>
+        }
+        else if (cont is BookContextBreak)
+        {
+            <StoryContextBreakComponent></StoryContextBreakComponent>
+        }
+        else if (cont is BookChapterSection sect)
+        {
+            <div class="story-section">
+                <div class="story-section-name">@(sect.Title)</div>
+            </div>
+        }
+        else if(cont is BookQuote quot) 
+        {
+            <StoryQuoteComponent Quote="quot"></StoryQuoteComponent>
+        }
+    }
+    </div>
+</div>

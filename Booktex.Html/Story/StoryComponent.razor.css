@@ -1,0 +1,113 @@
+﻿.story-page {
+    background-image: url('images/story/matrix-paper.webp');
+    background-size: 100%;
+    background-repeat: repeat-y;
+}
+
+.story-container {
+    position: fixed;
+    font-family: 'StoryElite';
+    cursor: default;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+}
+
+.story-header {
+    font-family: 'StoryInkFree';
+    font-style: italic;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+}
+
+
+@media only screen and (max-width: 990px) {
+    .story-container {
+        left: calc(calc(100vw - 400px)/2);
+        top: 60px;
+        width: 400px;
+        height: 95%;
+        font-size: 6pt;
+        border-width: 20px;
+        border-style: solid;
+        border-color: rgb(240,240,240);
+        background-color: rgb(20,20,20);
+    }
+
+
+    .story-page {
+        width: 350px;
+        padding: 30px;
+    }
+
+    .story-header {
+        font-size: 20pt;
+        font-weight: 800;
+        transform: rotate(-4deg);
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
+    .story-header-name {
+        font-size: 20pt;
+        font-weight: 800;
+        margin-bottom: 0px;
+    }
+
+    .story-header-sub-name {
+        margin-top: -20px;
+        font-style: italic;
+        font-size: 20pt;
+        font-weight: 500;
+    }
+}
+
+@media only screen and (min-width: 990px) {
+
+    .story-container {
+        left: calc(calc(100vw - 1000px)/2);
+        top: 20px;
+        width: 1000px;
+        height: 95%;
+        font-size: 12pt;
+        border-width: 20px;
+        border-style: solid;
+        border-color: rgb(240,240,240);
+        background-color: rgb(20,20,20);
+    }
+
+
+    .story-page {
+        width: 900px;
+        padding: 70px;
+        padding-right: 110px;
+    }
+
+    .story-header {
+        font-size: 20pt;
+        font-weight: 800;
+        transform: rotate(-4deg);
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
+    .story-header-name {
+        font-size: 40pt;
+        font-weight: 800;
+        margin-bottom: 0px;
+    }
+
+    .story-header-sub-name {
+        margin-top: -20px;
+        font-style: italic;
+        font-size: 40pt;
+        font-weight: 500;
+    }
+
+}
+

@@ -1,0 +1,20 @@
+﻿.story-narration {
+    text-indent: 8px;
+}
+
+
+@media only screen and (max-width: 990px) {
+    .story-narration {
+        margin-top: 3px;
+        margin-bottom: 3px;
+    }
+
+}
+
+@media only screen and (min-width: 990px) {
+    .story-narration {
+        margin-top: 4px;
+        margin-bottom: 4px;
+    }
+
+}

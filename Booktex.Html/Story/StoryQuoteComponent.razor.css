@@ -1,0 +1,79 @@
+﻿
+@media only screen and (max-width: 990px) {
+    .story-quote {
+        font-family: 'Ink Free';
+        font-style: italic;
+        font-size: 8pt;
+        text-align: left;
+        padding-left: 10%;
+        width: 95%;
+    }
+
+    .story-quote-text {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .story-quote-text-line {
+        margin-top: 8px;
+    }
+
+    .story-quote-text-line {
+    }
+
+    .story-quote-footer {
+        border-top: 1px solid rgba(40, 40, 40, 0.5);
+        display: flex;
+        flex-direction: row;
+        justify-content: end;
+        padding-top: 10px;
+    }
+
+    .story-quote-footer-name {
+        font-weight: 900;
+    }
+
+    .story-quote-footer-sub-name {
+    }
+
+
+}
+
+@media only screen and (min-width: 990px) {
+    .story-quote {
+        font-family: 'Ink Free';
+        font-style: italic;
+        font-size: 12pt;
+        text-align: left;
+        padding-left: 10%;
+        width: 95%;
+    }
+
+    .story-quote-text {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .story-quote-text-line {
+        margin-top: 8px;
+    }
+
+    .story-quote-text-line {
+    }
+
+    .story-quote-footer {
+        border-top: 1px solid rgba(40, 40, 40, 0.5);
+        display: flex;
+        flex-direction: row;
+        justify-content: end;
+        padding-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    .story-quote-footer-name {
+        font-weight: 900;
+    }
+
+    .story-quote-footer-sub-name {
+    }
+}
