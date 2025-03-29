@@ -20,11 +20,5 @@ public partial class StoryQuoteComponent
     [Parameter]
     public BooktexBackgroundImageSpecification? ImageSpec { get; set; }
 
-    private string? QuoteClass => (Quote.Name?.ToLower()?.Trim(), Quote.SubName?.ToLower()?.Trim()) switch
-    {
-        (string nam, _) when nam.Contains("cold war") => "quot-cold-war",
-        _ => null
-    };
-
 
 }
