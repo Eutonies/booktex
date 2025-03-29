@@ -38,7 +38,7 @@ jobs:
          $build = $build + 1
          $nextSemver = "$major.$minor.$build"
          Write-Host "Will use next SemVer=$nextSemver" 
-         Write-Output "SEMVER=$nextSemver"
+         echo "SEMVER=$nextSemver" >> $Env:GITHUB_OUTPUT
     
   build-and-publish:
     permissions:
@@ -82,7 +82,7 @@ jobs:
       env:
         actionsuser: ${{ secrets.EUTONIES_GITHUB_ACTIONS_USER }}
         galleryuser: ${{ secrets.EUTONIES_NUGET_GALLERY_USER }}
-        gallerykey: ${{ secrets.EUTONIES_NUGET_GALLERY_USER }}
+        gallerykey: ${{ secrets.EUTONIES_NUGET_GALLERY_APIKEY }}
 
       run: |
         dotnet nuget add source --username $Env:actionsuser --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name "github" "https://nuget.pkg.github.com/Eutonies/index.json"
