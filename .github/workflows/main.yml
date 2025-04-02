@@ -35,7 +35,7 @@ jobs:
          $major = $semver.Major
          $minor = $semver.Minor
          $build = $semver.Build
-         $build = $build + 1
+         $build = $build 
          $nextSemver = "$major.$minor.$build"
          Write-Host "Will use next SemVer=$nextSemver" 
          echo "SEMVER=$nextSemver" >> $Env:GITHUB_OUTPUT
