@@ -2,6 +2,7 @@
     background-image: url('images/story/matrix-paper.webp');
     background-size: 100%;
     background-repeat: repeat-y;
+    box-sizing: border-box;
 }
 
 .story-container {
@@ -49,7 +50,7 @@
         font-weight: 800;
         transform: rotate(-4deg);
         margin-top: 20px;
-        margin-bottom: 20px;
+        margin-bottom: 50px;
     }
 
     .story-header-name {
@@ -92,7 +93,7 @@
         font-weight: 800;
         transform: rotate(-4deg);
         margin-top: 20px;
-        margin-bottom: 20px;
+        margin-bottom: 60px;
     }
 
     .story-header-name {

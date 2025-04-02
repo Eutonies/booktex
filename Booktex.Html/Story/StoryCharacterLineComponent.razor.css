@@ -1,139 +1,79 @@
-﻿@media only screen and (max-width: 990px) {
-    .story-character-line {
-    }
+﻿.story-character-line {
+    width: 100%;
+}
 
-    .story-character-line-part {
-        display: flex;
-        flex-direction: row;
-    }
+.story-character-line  td {
+    flex-direction: row;
+}
 
-    .story-character-line-part-name {
-        font-weight: 900;
-    }
+.story-character-line-name-td {
+    font-weight: 900;
+    width: 15%;
+}
 
-    .left-side > .story-character-line-part-name {
-        margin-right: 10px;
-    }
+.story-character-line-part-name-text {
+}
 
-    .right-side > .story-character-line-part-name {
-        margin-left: 10px;
-    }
+.left-side .story-character-line-part-text-container {
+    text-align: left;
+    margin: auto auto auto 0px;
+}
 
-    .story-character-line-part-text-container {
-        display: flex;
-        flex-direction: column;
-    }
+.right-side .story-character-line-part-text-container {
+    text-align: right;
+    margin: auto 0px auto auto;
+}
 
-    .story-character-line-part-text {
-        margin-bottom: 0px;
-    }
 
+.right-side .story-character-line-part-name-text {
+    text-align: right;
+    margin: auto 0px auto auto;
+}
+
+.story-character-line-part-description {
+    font-family: 'Ink Free';
+    font-style: italic;
+    color: rgb(12, 6, 86);
+}
+
+.right-side .int-phone {
+    transform: scaleX(-1);
+}
+
+
+.int-phone {
+    position: absolute;
+    content: '';
+    background-image: url('images/space-and-time/phone-sm.webp');
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+
+
+
+
+@media only screen and (max-width: 990px) {
     .story-character-line-part-description {
         margin-top: -3px;
-        font-family: 'Ink Free';
-        font-style: italic;
-        color: rgb(12, 6, 86);
     }
-
-    .left-side {
-        text-align: left;
-        justify-content: left;
-    }
-
-
-    .right-side {
-        text-align: right;
-        justify-content: right;
-    }
-
-    .right-side .int-phone {
-        transform: scaleX(-1);
-    }
-
-
     .int-phone {
         margin-top: -5px;
-        position: absolute;
         width: 14px;
         height: 15px;
-        content: '';
-        background-image: url('images/space-and-time/phone-sm.webp');
-        background-size: contain;
-        background-repeat: no-repeat;
     }
 
 }
 
 @media only screen and (min-width: 990px) {
-    .story-character-line {
-    }
-
-    .story-character-line-part {
-        display: flex;
-        flex-direction: row;
-    }
-
-    .story-character-line-part-name {
-        font-weight: 900;
-    }
-
-    .left-side > .story-character-line-part-name {
-        margin-right: 40px;
-    }
-
-    .right-side > .story-character-line-part-name {
-        margin-left: 20px;
-    }
-
-    .story-character-line-part-text-container {
-        display: flex;
-        flex-direction: column;
-    }
-
-    .story-character-line-part-text {
-        margin-bottom: 0px;
-    }
-
     .story-character-line-part-description {
         margin-top: -7px;
-        font-family: 'Ink Free';
-        font-style: italic;
-        color: rgb(12, 6, 86);
     }
-
-    .left-side {
-        text-align: left;
-        justify-content: left;
-    }
-
-
-    .right-side {
-        text-align: right;
-        justify-content: right;
-    }
-
-    .right-side .int-phone {
-        transform: scaleX(-1);
-    }
-
-
     .int-phone {
         margin-top: -8px;
-        position: absolute;
         width: 30px;
         height: 30px;
-        content: '';
-        background-image: url('images/space-and-time/phone-sm.webp');
-        background-size: contain;
-        background-repeat: no-repeat;
     }
 
 }
-
-.story-character-line-part-name {
-}
-
-.left-side .int-phone {
-}
-
 

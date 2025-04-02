@@ -6,7 +6,9 @@
         font-size: 8pt;
         text-align: left;
         padding-left: 10%;
+        padding-right: 5%;
         width: 95%;
+        box-sizing: border-box;
     }
 
     .story-quote-text {

@@ -1,54 +1,62 @@
 ﻿@using Booktex.Domain.Book.Model
-<div class="story-character-line">
-    @if(!IsRight) 
-    {
-        @foreach (var (linPart, lpIndx) in Line.LineParts.Select((_, indx) => (_, indx)))
+
+
+<table class="story-character-line">
+    <tbody>
+        @if (!IsRight)
         {
-            <div class="story-character-line-part left-side">
-                <div class="story-character-line-part-name" style="width: @(Line.Character.CharacterName.Length * 6)px;">
-                    @if (lpIndx == 0)
-                    {
-                        <div class="story-character-line-part-name-text">@(Line.Character.CharacterName)</div>
-                        @if (InteractionClass != null)
+            @foreach (var (linPart, lpIndx) in Line.LineParts.Select((_, indx) => (_, indx)))
+            {
+                <tr class="left-side">
+                    <td class="story-character-line-name-td">
+                        @if (lpIndx == 0)
                         {
-                            <div class="@InteractionClass"></div>
+                            <div class="story-character-line-part-name-text">@(Line.Character.CharacterName)</div>
+                            @if (InteractionClass != null)
+                            {
+                                <div class="@InteractionClass"></div>
+                            }
                         }
-                    }
-                </div>
-
-                <div class="story-character-line-part-text-container">
-                    <div class="story-character-line-part-text">@(linPart.PartText)</div>
-                    @if (linPart.Description != null)
-                    {
-                        <div class="story-character-line-part-description">[@(linPart.Description)]</div>
-                    }
-                </div>
-            </div>
-
+                    </td>
+                    <td class="story-character-line-text-td">
+                        <div class="story-character-line-part-text-container">
+                            <div class="story-character-line-part-text">@(linPart.PartText)</div>
+                            @if (linPart.Description != null)
+                            {
+                                <div class="story-character-line-part-description">[@(linPart.Description)]</div>
+                            }
+                        </div>
+                    </td>
+                </tr>
+            }
         }
-    }
-    else
-    {
-        @foreach (var (linPart, lpIndx) in Line.LineParts.Select((_, indx) => (_, indx)))
+        else
         {
-            <div class="story-character-line-part right-side">
-                <div class="story-character-line-part-text-container">
-                    <div class="story-character-line-part-text">@(linPart.PartText)</div>
-                    @if (linPart.Description != null)
-                    {
-                        <div class="story-character-line-part-description">[@(linPart.Description)]</div>
-                    }
-                </div>
-                <div class="story-character-line-part-name" style="width: @(Line.Character.CharacterName.Length * 3)px;">
-                    @if (lpIndx == 0)
-                    {
-                        <div class="story-character-line-part-name-text">@(Line.Character.CharacterName)</div>
-                        @if(InteractionClass != null) {
-                            <div class="@InteractionClass"></div>
+            @foreach (var (linPart, lpIndx) in Line.LineParts.Select((_, indx) => (_, indx)))
+            {
+
+                <tr class="right-side">
+                    <td class="story-character-line-text-td">
+                        <div class="story-character-line-part-text-container">
+                            <div class="story-character-line-part-text">@(linPart.PartText)</div>
+                            @if (linPart.Description != null)
+                            {
+                                <div class="story-character-line-part-description">[@(linPart.Description)]</div>
+                            }
+                        </div>
+                    </td>
+                    <td class="story-character-line-name-td">
+                        @if (lpIndx == 0)
+                        {
+                            <div class="story-character-line-part-name-text">@(Line.Character.CharacterName)</div>
+                            @if (InteractionClass != null)
+                            {
+                                <div class="@InteractionClass"></div>
+                            }
                         }
-                    }
-                </div>
-            </div>
+                    </td>
+                </tr>
+            }
         }
-    }
-</div>
+    </tbody>
+</table>

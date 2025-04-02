@@ -1,5 +1,7 @@
 ﻿.story-narration {
     text-indent: 8px;
+    margin-left: 20px;
+    margin-right: 20px;
 }
 
 
@@ -13,8 +15,8 @@
 
 @media only screen and (min-width: 990px) {
     .story-narration {
-        margin-top: 4px;
-        margin-bottom: 4px;
+        margin-top: 20px;
+        margin-bottom: 20px;
     }
 
 }
