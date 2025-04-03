@@ -1,4 +1,5 @@
 ﻿@using Booktex.Domain.Book.Model
+@using Booktex.Domain.Util
 @using Booktex.Html.Common
 
 <link rel="stylesheet" href="@("storyfonts.css".ResRef())" />
@@ -41,9 +42,7 @@
         }
         else if (cont is BookChapterSection sect)
         {
-            <div class="story-section">
-                <div class="story-section-name">@(sect.Title)</div>
-            </div>
+            <StorySectionComponent Section="sect"></StorySectionComponent>
         }
         else if(cont is BookQuote quot) 
         {

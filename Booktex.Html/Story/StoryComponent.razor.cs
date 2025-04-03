@@ -23,6 +23,7 @@ public partial class StoryComponent
     [Parameter]
     public Func<BookQuote,BooktexBackgroundImageSpecification?>? BackgroundDeriver { get; set; }
 
+
     private BooktexBackgroundImageSpecification? BackgroundFor(BookQuote quote) => BackgroundDeriver?
         .Pipe(der => der(quote));
 
