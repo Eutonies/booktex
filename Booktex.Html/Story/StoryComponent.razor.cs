@@ -23,6 +23,9 @@ public partial class StoryComponent
     [Parameter]
     public Func<BookQuote,BooktexBackgroundImageSpecification?>? BackgroundDeriver { get; set; }
 
+    [Parameter]
+    public RenderFragment<BookChapterContent>? AdditionalContentRenderer { get; set; }
+
 
     private BooktexBackgroundImageSpecification? BackgroundFor(BookQuote quote) => BackgroundDeriver?
         .Pipe(der => der(quote));

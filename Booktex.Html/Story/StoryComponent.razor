@@ -48,6 +48,9 @@
         {
             <StoryQuoteComponent Quote="quot" ImageSpec="BackgroundFor(quot)"></StoryQuoteComponent>
         }
+        else {
+            @AdditionalContentRenderer?.Invoke(cont)
+        }
     }
     </div>
 </div>
