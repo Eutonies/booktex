@@ -1,15 +1,16 @@
 using Booktex.Application.GitHub;
 using Booktex.Application.Subscription;
 using Booktex.Application.Zip;
+using Booktex.Domain.Book.Specials;
 using Booktex.Domain.GitHub;
 using Booktex.Domain.Parsing;
 using Booktex.Domain.Subscription;
 using Booktex.Service;
 
 
-var inputFile = "C:/git/jen-and-will/story/29-03-2022A-Will and Jen - Arrest.story";
+var inputFile = "C:\\git\\jen-and-will\\psych\\abel1.psych";
 var input = await File.ReadAllTextAsync(inputFile);
-var parseResult = WritingParser.ParseFileContents(input);
+var parseResult = PsychLogParser.Parse(input);
 
 var builder = WebApplication.CreateBuilder(args);
 builder.AddConfiguration();
