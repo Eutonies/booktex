@@ -20,7 +20,7 @@
                     </td>
                     <td class="story-character-line-text-td">
                         <div class="story-character-line-part-text-container">
-                            <div class="story-character-line-part-text">@(linPart.PartText)</div>
+                            <div class="story-character-line-part-text">@TextFor(linPart)</div>
                             @if (linPart.Description != null)
                             {
                                 <div class="story-character-line-part-description">[@(linPart.Description)]</div>
@@ -40,7 +40,7 @@
                     <td class="story-character-line-name-td"></td>
                     <td class="story-character-line-text-td">
                         <div class="story-character-line-part-text-container">
-                            <div class="story-character-line-part-text">@(linPart.PartText)</div>
+                            <div class="story-character-line-part-text">@TextFor(linPart)</div>
                             @if (linPart.Description != null)
                             {
                                 <div class="story-character-line-part-description">[@(linPart.Description)]</div>

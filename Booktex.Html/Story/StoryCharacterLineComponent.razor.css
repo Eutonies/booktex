@@ -31,7 +31,7 @@
 }
 
 .story-character-line-part-description {
-    font-family: 'Ink Free';
+    font-family: 'StoryInkFree';
     font-style: italic;
     color: rgb(12, 6, 86);
 }
@@ -49,9 +49,30 @@
     background-repeat: no-repeat;
 }
 
+.animation-container {
+    display: flex;
+    flex-direction: row;
+}
 
+.rolling-r {
+    text-align: center;
+}
 
+.rolling-r div {
+    animation-name: roll;
+    animation-duration: 0.8s;
+    animation-delay: 0s;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-in;
+}
 
+.rolling-r-fast {
+    animation-duration: 0.8s;
+}
+
+.rolling-r-slow {
+    animation-duration: 2.4s;
+}
 
 @media only screen and (max-width: 990px) {
     .story-character-line-part-description {
@@ -61,6 +82,9 @@
         margin-top: -5px;
         width: 14px;
         height: 15px;
+    }
+    .rolling-r {
+        width: 8px;
     }
 
 }
@@ -74,6 +98,19 @@
         width: 30px;
         height: 30px;
     }
+    .rolling-r {
+        width: 12px;
+    }
+
 
 }
 
+@keyframes roll {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
