@@ -60,7 +60,6 @@
 
 .rolling-r div {
     animation-name: roll;
-    animation-duration: 0.8s;
     animation-delay: 0s;
     animation-iteration-count: infinite;
     animation-timing-function: ease-in;
@@ -84,7 +83,7 @@
         height: 15px;
     }
     .rolling-r {
-        width: 8px;
+        width: 6px;
     }
 
 }
