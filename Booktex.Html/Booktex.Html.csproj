@@ -24,7 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Story/StoryCharacterLineComponent.razor" CssScope="story-character-line" />
+    <None Update="Story/StoryCharacterLineComponent.razor.css" CssScope="story-character-line" />
   </ItemGroup>
 
 </Project>
