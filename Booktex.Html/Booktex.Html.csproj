@@ -23,6 +23,8 @@
     <ProjectReference Include="..\Booktex.Domain\Booktex.Domain.csproj" />
   </ItemGroup>
 
-
+  <ItemGroup>
+    <None Update="Story/StoryCharacterLineComponent.razor" CssScope="story-character-line" />
+  </ItemGroup>
 
 </Project>
