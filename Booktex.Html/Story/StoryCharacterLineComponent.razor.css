@@ -54,6 +54,11 @@
     flex-direction: row;
 }
 
+.right-side .animation-text {
+    justify-content: end;
+}
+
+
 .rolling-r {
     text-align: center;
 }
